@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Predict Ads</title>
+  </head>
+  <body>
+    <h1>Predict Ads</h1>
+    <form method="post" onsubmit="predictAds(event)">
+      <label for="daily_time_spent">Daily Time Spent on Site:</label>
+      <input type="text" name="daily_time_spent" id="daily_time_spent"><br><br>
+
+      <label for="age">Age:</label>
+      <input type="text" name="age" id="age"><br><br>
+
+      <label for="area_income">Area Income:</label>
+      <input type="text" name="area_income" id="area_income"><br><br>
+
+      <label for="daily_internet_usage">Daily Internet Usage:</label>
+      <input type="text" name="daily_internet_usage" id="daily_internet_usage"><br><br>
+
+      <label for="male">Gender:</label>
+      <select name="male" id="male">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select><br><br>
+
+      <label for="month">Month:</label>
+      <input type="text" name="month" id="month"><br><br>
+
+      <label for="day">Day:</label>
+      <input type="text" name="day" id="day"><br><br>
+
+      <label for="weekday">Weekday:</label>
+      <input type="text" name="weekday" id="weekday"><br><br>
+
+      <label for="hour">Hour:</label>
+      <input type="text" name="hour" id="hour"><br><br>
+
+      <input type="submit" value="Predict">
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+      function predictAds(event) {
+        event.preventDefault();
+        const data = {
+          daily_time_spent: document.getElementById('daily_time_spent').value,
+          age: document.getElementById('age').value,
+          area_income: document.getElementById('area_income').value,
+          daily_internet_usage: document.getElementById('daily_internet_usage').value,
+          male: document.getElementById('male').value,
+          month: document.getElementById('month').value,
+          day: document.getElementById('day').value,
+          weekday: document.getElementById('weekday').value,
+          hour: document.getElementById('hour').value,
+        };
+        fetch('/predict_ads', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+          document.getElementById('result').innerHTML = result;
+        })
+        .catch(error => console.error(error));
+      }
+    </script>
+  </body>
+</html>
